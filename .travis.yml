@@ -26,11 +26,11 @@ after_script:
 
 before_deploy:
   - docker login docker.io -u "$DOCKER_USER" -p "$DOCKER_PASS"
-  - docker tag ci-example "$TRAVIS_REPO_SLUG:latest"
-  - docker tag ci-example "$TRAVIS_REPO_SLUG:$version"
+  - docker tag ci-example malberra/ci-example:latest
+  - docker tag ci-example malberra/ci-example:$version
 
 deploy:
   provider: script
-  script: docker push "${TRAVIS_REPO_SLUG}:latest" && docker push "${TRAVIS_REPO_SLUG}:${version}"
+  script: docker push "malberra/ci-example:latest" && docker push "malberra/ci-example:${version}"
   on:
     branch: master
