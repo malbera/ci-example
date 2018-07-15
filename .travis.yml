@@ -26,8 +26,8 @@ after_script:
 
 before_deploy:
   - docker login docker.io -u "$DOCKER_USER" -p "$DOCKER_PASS"
-  - docker tag "$TRAVIS_REPO_SLUG" "$TRAVIS_REPO_SLUG:latest"
-  - docker tag "$TRAVIS_REPO_SLUG" "$TRAVIS_REPO_SLUG:$version"
+  - docker tag ci-example "$TRAVIS_REPO_SLUG:latest"
+  - docker tag ci-example "$TRAVIS_REPO_SLUG:$version"
 
 deploy:
   provider: script
