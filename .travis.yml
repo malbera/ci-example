@@ -31,6 +31,6 @@ before_deploy:
 
 deploy:
   provider: script
-  script: docker push "$TRAVIS_REPO_SLUG:latest" && docker push "$TRAVIS_REPO_SLUG:${version}"
+  script: docker push "${TRAVIS_REPO_SLUG}:latest" && docker push "${TRAVIS_REPO_SLUG}:${version}"
   on:
     branch: master
