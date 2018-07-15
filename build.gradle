@@ -1,0 +1,40 @@
+buildscript {
+    ext {
+        springBootVersion     = "2.0.1.RELEASE"
+        gradleDockerVersion   = "1.2"
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("se.transmode.gradle:gradle-docker:${gradleDockerVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: "application"
+apply plugin: "org.springframework.boot"
+
+compileJava {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    mainClassName       = "com.ciexample.web.Application"
+}
+
+jar {
+    baseName = "ciexample"
+    group    = "com.ciexample"
+    version  = "0.0.1-SNAPSHOT"
+    manifest { attributes "Main-Class": "com.ciexample.web.Application" }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web:2.0.1.RELEASE")
+    testCompile("org.springframework.boot:spring-boot-starter-test:2.0.1.RELEASE")
+}
+
