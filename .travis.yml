@@ -14,8 +14,16 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
+
+after_script:
+  - docker images
+
+before_deploy:
+  - docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
+  - docker tag "TRAVIS_REPO_SLUG" "${TRAVIS_REPO_SLUG}:latest"
+  - docker tag "TRAVIS_REPO_SLUG" "${TRAVIS_REPO_SLUG}:${version}"
 deploy:
   provider: script
-  script: bash .travis/deploy_dockerhub.sh
+  script: docker push "${IMAGE_NAME}:latest" && docker push "${IMAGE_NAME}:${version}"
   on:
     branch: master
