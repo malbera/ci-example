@@ -15,22 +15,16 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 
-before_script:
-  - version="$(git rev-parse --short HEAD)"
-  - docker pull "$TRAVIS_REPO_SLUG" || true
-script:
-  - docker build --pull --cache-from "$TRAVIS_REPO_SLUG" --tag "$TRAVIS_REPO_SLUG" .
-
 after_script:
   - docker images
 
 before_deploy:
   - docker login docker.io -u "$DOCKER_USER" -p "$DOCKER_PASS"
-  - docker tag ci-example malberra/ci-example:latest
-  - docker tag ci-example malberra/ci-example:$version
+  - docker build -f Dockerfile -t $TRAVIS_REPO_SLUG:latest .
+  - docker tag $TRAVIS_REPO_SLUG:latest $TRAVIS_REPO_SLUG
 
 deploy:
   provider: script
-  script: docker push "malberra/ci-example:latest" && docker push "malberra/ci-example:${version}"
+  script: docker push $TRAVIS_REPO_SLUG
   on:
     branch: master
