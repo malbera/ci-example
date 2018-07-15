@@ -25,7 +25,7 @@ after_script:
   - docker images
 
 before_deploy:
-  - docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
+  - docker login docker.io -u "$DOCKER_USER" -p "$DOCKER_PASS"
   - docker tag "$TRAVIS_REPO_SLUG" "$TRAVIS_REPO_SLUG:latest"
   - docker tag "$TRAVIS_REPO_SLUG" "$TRAVIS_REPO_SLUG:$version"
 
