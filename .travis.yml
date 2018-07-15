@@ -14,5 +14,8 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
-after_success:
-  - sh .travis/deploy_dockerhub.sh
+deploy:
+  provider: script
+  script: bash .travis/deploy_dockerhub
+  on:
+    branch: master
