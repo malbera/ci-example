@@ -20,11 +20,11 @@ after_script:
 
 before_deploy:
   - docker login docker.io -u "$DOCKER_USER" -p "$DOCKER_PASS"
-  - docker build -f Dockerfile -t $TRAVIS_REPO_SLUG:latest .
-  - docker tag $TRAVIS_REPO_SLUG:latest $TRAVIS_REPO_SLUG
+  - docker build -f Dockerfile -t malberra/ci-example:latest .
+  - docker tag malberra/ci-example:latest malberra/ci-example
 
 deploy:
   provider: script
-  script: docker push $TRAVIS_REPO_SLUG
+  script: docker push malberra/ci-example
   on:
     branch: master
