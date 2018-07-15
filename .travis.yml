@@ -16,7 +16,7 @@ cache:
     - $HOME/.gradle/wrapper/
 
 before_script:
-  - version="$(awk '$2 == "CAKE_SERVICE_VERSION" { print $3; exit }' Dockerfile)"
+  - version="$(git rev-parse --short HEAD)"
   - docker pull "$TRAVIS_REPO_SLUG" || true
 script:
   - docker build --pull --cache-from "$TRAVIS_REPO_SLUG" --tag "$TRAVIS_REPO_SLUG" .
