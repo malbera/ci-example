@@ -17,6 +17,9 @@ cache:
 
 before_script:
   - version="$(awk '$2 == "CAKE_SERVICE_VERSION" { print $3; exit }' Dockerfile)"
+  - docker pull "$TRAVIS_REPO_SLUG" || true
+script:
+  - docker build --pull --cache-from "$TRAVIS_REPO_SLUG" --tag "$TRAVIS_REPO_SLUG" .
 
 after_script:
   - docker images
@@ -25,8 +28,9 @@ before_deploy:
   - docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
   - docker tag "$TRAVIS_REPO_SLUG" "$TRAVIS_REPO_SLUG:latest"
   - docker tag "$TRAVIS_REPO_SLUG" "$TRAVIS_REPO_SLUG:$version"
+
 deploy:
   provider: script
-  script: docker push "$TRAVIS_REPO_SLUG:latest" && docker push "$TRAVIS_REPO_SLUG:$version"
+  script: docker push "$TRAVIS_REPO_SLUG:latest" && docker push "$TRAVIS_REPO_SLUG:${version}"
   on:
     branch: master
